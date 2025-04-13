@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="module">
+        import { createRenderer, render, h } from '/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.prod.js';
+        console.log(createRenderer); // 创建自定义的渲染器，自己提供渲染方式
+        console.log(render); // 用内置的渲染器进行渲染，渲染 dom 元素的
+        console.log('h', h); // 创建虚拟 dom
+        let ele = h('h1', 'hello world!');
+        console.log(app, 'app')
+        // render(ele, app);
+        const renderer = createRenderer({
+            createElement(type) { // 创建一个元素
+                console.log(type);
+                return document.createElement('h1'); // 不一定是createElement，也可以是 cavase，或者小程序里面的 api
+            },
+            setElementText(el, text) {
+                el.textContent = text;
+            },
+            insert(el, container) {
+                container.appendChild(el);
+            }
+        });
+        renderer.render(ele, app);
+    </script>
+
+</body>
+
+</html>
